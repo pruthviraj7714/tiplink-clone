@@ -1,9 +1,11 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 export default function Appbar() {
   const { data: session } = useSession();
+  const router = useRouter();
   return (
     <div className="flex justify-between items-center border-b h-16 p-4 border-black/55">
       <div className="text-xl font-bold">TipLink</div>
@@ -11,6 +13,7 @@ export default function Appbar() {
         <div>
           <Button variant={"destructive"} onClick={async() => {
             await signOut({redirect:false});
+            router.push('/');
           }}>Log out</Button>
         </div>
       ) : (
