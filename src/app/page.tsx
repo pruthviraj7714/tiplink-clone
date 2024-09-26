@@ -14,16 +14,11 @@ export default function LandingPage() {
 
   const handelSignIn = async () => {
     setIsLoading(true);
-    try {
-      const res = await signIn("google", { redirect: false });
-      if (res?.ok) {
-        toast.success("Successfully Signed In");
-      }
-    } catch (error: any) {
-      toast.error("An error occurred during sign-in");
-    } finally {
-      setIsLoading(false);
+    const res = await signIn("google", { redirect: false });
+    if (res?.ok) {
+      toast.success("Successfully Signed In");
     }
+    setIsLoading(false);
   };
 
   return (

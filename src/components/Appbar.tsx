@@ -20,8 +20,8 @@ export default function Appbar() {
         <div>
           <Button
           className="flex items-center gap-1.5 py-5"
-            onClick={() => {
-              signIn("google", { redirect: false });
+            onClick={async () => {
+              await signIn("google", { redirect: false });
             }}
           >
             <img src="https://tiplink.io/_next/static/media/google-no-background.207a36b0.svg" className="w-8 h-8 p-2 bg-white rounded" />
