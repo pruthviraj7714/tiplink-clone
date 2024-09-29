@@ -10,9 +10,9 @@ export default function TokenCard({token} : {token : any}) {
                     <p>1 {token.name} = ~${token.price.toFixed(2)}</p>
                 </div>
             </div>
-            <div className="flex flex-col items-start">
-                <div>$ {(token.price * token.balance).toFixed(2)}</div>
-                <div>{token.balance.toFixed(2)} {token.name}</div>
+            <div className="flex flex-col items-end">
+                <div className="font-semibold">$ {(token.price * token.balance).toFixed(2)}</div>
+                <div className="font-medium">{token.balance.toFixed(2)} {token.name}</div>
             </div>
         </div>
     )

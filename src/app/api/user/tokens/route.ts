@@ -13,9 +13,7 @@ export async function GET(req: NextRequest) {
 
     if (!publicKey) {
       return NextResponse.json(
-        {
-          message: "Public Key is missing!",
-        },
+        { message: "Public Key is missing!" },
         { status: 411 }
       );
     }
@@ -49,7 +47,7 @@ export async function GET(req: NextRequest) {
           } else {
             return { ...token, balance: 0, price: prices[token.name].price };
           }
-        } catch (error: any) {
+        } catch (error : any) {
           console.log(error.message);
           return { ...token, balance: 0, price: prices[token.name].price };
         }
@@ -68,9 +66,7 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      {
-        message: "Internal Server Error",
-      },
+      { message: "Internal Server Error" },
       { status: 500 }
     );
   }
