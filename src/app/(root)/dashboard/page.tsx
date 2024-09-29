@@ -14,6 +14,7 @@ import AddFunds from "@/components/AddFunds";
 import Swap from "@/components/SwapTab";
 import Withdraw from "@/components/Withdraw";
 import { useTokenInfo } from "@/hooks/useTokenInfo";
+import { LuLoader2 } from "react-icons/lu";
 
 interface UserInfoType {
   email: string;
@@ -34,6 +35,7 @@ export default function Dashboard() {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfoType | null>(null);
   const [currentTab, setCurrentTab] = useState<Tab>("Tokens");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const { loading, tokenInfo, totalBalance } = useTokenInfo(
     userInfo?.solWallet?.publicKey || ""
@@ -46,6 +48,8 @@ export default function Dashboard() {
       setUserInfo(res.data.user);
     } catch (error: any) {
       toast.error(error.response.data.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,8 +57,13 @@ export default function Dashboard() {
     fetchUserInfo();
   }, []);
 
-  if (status === "loading" || loading) {
-    return <div>loading...</div>;
+  if (status === "loading" || loading || isLoading) {
+    return (
+      <div className="flex min-h-screen justify-center gap-2 items-center">
+        <LuLoader2 size={35} className="animate-spin text-sky-400" />
+        <span className="text-lg font-semibold">Loading...</span>
+      </div>
+    );
   }
 
   if (status == "unauthenticated" || !session?.user) {
@@ -121,7 +130,11 @@ export default function Dashboard() {
               <div
                 className={`${currentTab === "Tokens" ? "visible" : "hidden"}`}
               >
-                <Assets tokenInfo={tokenInfo} loading={loading} totalBalance={totalBalance} />
+                <Assets
+                  tokenInfo={tokenInfo}
+                  loading={loading}
+                  totalBalance={totalBalance}
+                />
               </div>
               <div
                 className={`${currentTab === "Send" ? "visible" : "hidden"}`}
