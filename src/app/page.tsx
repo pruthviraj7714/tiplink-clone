@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { LuLoader2 } from "react-icons/lu";
 import { toast } from "sonner";
@@ -11,6 +11,10 @@ export default function LandingPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const { data: session } = useSession();
+
+  if(session && session.user) {
+    redirect('/dashboard');
+  }
 
   const handelSignIn = async () => {
     setIsLoading(true);

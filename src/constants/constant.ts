@@ -6,21 +6,31 @@ export const SUPPORTED_TOKENS: {
   name: string;
   mint: string;
   native: boolean;
+  image: string;
+  decimals: number;
 }[] = [
-    {
-      name: "USDC",
-      mint: "FSxJ85FXVsXSr51SeWf9ciJWTcRnqKFSmBgRDeL3KyWw",
-      native: false,
-    },
-    {
-      name: "USDT",
-      mint: "Q6XprfkF8RQQKoQVG33xT88H7wi8Uk1B1CC7YAs69Gi",
-      native: false,
-    },
   {
     name: "SOL",
-    mint: "",
+    mint: "So11111111111111111111111111111111111111112",
     native: true,
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSEVwqwbF9IuKkegPO3sshUgShx5JmzedlPg&s",
+    decimals: 9,
+  },
+  {
+    name: "USDC",
+    mint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    native: false,
+    image: "https://guarda.com/assets/images/academy/thumbs/usdc-review.webp",
+    decimals: 6,
+  },
+  {
+    name: "USDT",
+    mint: "Q6XprfkF8RQQKoQVG33xT88H7wi8Uk1B1CC7YAs69Gi",
+    native: false,
+    image:
+      "https://png.pngtree.com/png-clipart/20230923/original/pngtree-tether-symbol-vector-icon-usdt-logo-crypto-pay-financial-altcoin-vector-png-image_12543912.png",
+    decimals: 6,
   },
 ];
 
@@ -32,6 +42,7 @@ export const fetchTokenPrices = async () => {
   if (priceCache && currentTime - priceCache.lastFetched < CACHE_TTL) {
     return priceCache.prices;
   }
+
   try {
     const response = await axios.get(
       `${process.env.CRYPTO_PRICE_URL}?ids=${SUPPORTED_TOKENS.map(
@@ -46,8 +57,7 @@ export const fetchTokenPrices = async () => {
       lastFetched: currentTime,
     };
 
-    return  prices;
-  
+    return prices;
   } catch (error) {
     return NextResponse.json(
       {
@@ -58,5 +68,6 @@ export const fetchTokenPrices = async () => {
     );
   }
 };
+
 
 export const connection = new Connection("https://api.devnet.solana.com");

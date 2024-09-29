@@ -1,9 +1,7 @@
 import { useTokenInfo } from "@/hooks/useTokenInfo";
 import TokenCard from "./TokenCard";
 
-export default function Assets({ address, classname } : { address: string, classname : string }) {
-  const { loading, tokenInfo, totalBalance } = useTokenInfo(address);
-
+export default function Assets({ tokenInfo, totalBalance, loading } : { tokenInfo: any,totalBalance : number, loading: boolean }) {
 
   if (loading) {
     return (
@@ -17,12 +15,12 @@ export default function Assets({ address, classname } : { address: string, class
   }
 
   return (
-    <div className={`flex flex-col ${classname}`}>
+    <div className={'flex flex-col h-[400px]'}>
       <div className="text-slate-600 text-lg font-sans">Your Assets</div>
       <div className="text-5xl font-bold">${totalBalance.toFixed(2)} <span className="text-2xl text-gray-500 font-bold">USD</span></div>
       <div className="mt-10 w-full">
         {tokenInfo?.map((token: any) => (
-          <TokenCard token={token} />
+          <TokenCard key={token.mint} token={token} />
         ))}
       </div>
     </div>

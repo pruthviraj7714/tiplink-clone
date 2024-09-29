@@ -1,8 +1,9 @@
-
 export default function Withdraw() {
-    return(
-        <div>
-            Withdraw
-        </div>
-    )
+  return (
+    <div className="flex justify-center items-center h-[400px]">
+      <p className="font-bold text-xl">
+        We currently don&apos;t support this feature{" "}
+      </p>
+    </div>
+  );
 }

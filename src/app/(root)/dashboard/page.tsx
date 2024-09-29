@@ -13,6 +13,7 @@ import Send from "@/components/SendTab";
 import AddFunds from "@/components/AddFunds";
 import Swap from "@/components/SwapTab";
 import Withdraw from "@/components/Withdraw";
+import { useTokenInfo } from "@/hooks/useTokenInfo";
 
 interface UserInfoType {
   email: string;
@@ -34,6 +35,10 @@ export default function Dashboard() {
   const [userInfo, setUserInfo] = useState<UserInfoType | null>(null);
   const [currentTab, setCurrentTab] = useState<Tab>("Tokens");
 
+  const { loading, tokenInfo, totalBalance } = useTokenInfo(
+    userInfo?.solWallet?.publicKey || ""
+  );
+
   const fetchUserInfo = async () => {
     try {
       const res = await axios.get("/api/user/info");
@@ -48,7 +53,7 @@ export default function Dashboard() {
     fetchUserInfo();
   }, []);
 
-  if (status === "loading") {
+  if (status === "loading" || loading) {
     return <div>loading...</div>;
   }
 
@@ -58,7 +63,7 @@ export default function Dashboard() {
 
   return (
     <div className="p-6 flex flex-col items-center min-h-screen">
-      <Card className="mt-24 border shadow-xl border-black/55 w-[820px] p-6">
+      <Card className="mt-24 border border-black/35 w-[820px] shadow-2xl p-6">
         <CardTitle>
           <div className="flex items-center gap-2">
             <div className="h-12 w-12">
@@ -100,6 +105,7 @@ export default function Dashboard() {
             <div className="flex justify-evenly mt-10 gap-3 items-center border border-black/15">
               {Tabs.map((tab) => (
                 <div
+                  key={tab}
                   onClick={() => setCurrentTab(tab as Tab)}
                   className={`w-full text-center text-nowrap font-semibold  px-10 py-1 cursor-pointer border-black ${
                     currentTab === tab
@@ -112,17 +118,35 @@ export default function Dashboard() {
               ))}
             </div>
             <div className="w-full pt-10">
-                {currentTab === "Send" ? (
-                  <Send />
-                ) : currentTab === "Add Funds" ? (
-                  <AddFunds />
-                ) : currentTab === "Swap" ? (
-                  <Swap />
-                ) : currentTab === "Tokens" ? (
-                  <Assets classname={`hidden ${currentTab === "Tokens" ? "block" : "hidden"}`} address={userInfo?.solWallet?.publicKey as string} />
-                ) : currentTab === "Withdraw" ? (
-                  <Withdraw />
-                ) : null}
+              <div
+                className={`${currentTab === "Tokens" ? "visible" : "hidden"}`}
+              >
+                <Assets tokenInfo={tokenInfo} loading={loading} totalBalance={totalBalance} />
+              </div>
+              <div
+                className={`${currentTab === "Send" ? "visible" : "hidden"}`}
+              >
+                <Send />
+              </div>
+              <div
+                className={`${
+                  currentTab === "Add Funds" ? "visible" : "hidden"
+                }`}
+              >
+                <AddFunds />
+              </div>
+              <div
+                className={`${
+                  currentTab === "Withdraw" ? "visible" : "hidden"
+                }`}
+              >
+                <Withdraw />
+              </div>
+              <div
+                className={`${currentTab === "Swap" ? "visible" : "hidden"}`}
+              >
+                <Swap tokenBalances={tokenInfo} />
+              </div>
             </div>
           </div>
         </CardContent>
