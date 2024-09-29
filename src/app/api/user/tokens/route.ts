@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
       SUPPORTED_TOKENS.map(async (token) => {
         try {
           if (token.native) {
-            let balance = await connection.getBalance(new PublicKey(publicKey));
+            const balance = await connection.getBalance(new PublicKey(publicKey));
             return {
               ...token,
               balance: Number(balance) / LAMPORTS_PER_SOL,

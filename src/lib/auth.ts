@@ -1,7 +1,7 @@
 import GoogleProvider from "next-auth/providers/google";
 import prisma from "./db";
 import { Keypair } from "@solana/web3.js";
-import { Account, Profile, User } from "next-auth";
+import { Account, User } from "next-auth";
 
 export const authOptions = {
   providers: [

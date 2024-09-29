@@ -70,7 +70,7 @@ export default function Swap({ tokenBalances }: { tokenBalances: any }) {
 
   const swapSides = (e: any) => {
     e.stopPropagation();
-    let currentBaseAsset = baseAsset;
+    const currentBaseAsset = baseAsset;
     setBaseAsset(quoteAsset);
     setQuoteAsset(currentBaseAsset);
   };

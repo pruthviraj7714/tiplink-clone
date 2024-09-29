@@ -1,4 +1,3 @@
-import { useTokenInfo } from "@/hooks/useTokenInfo";
 import TokenCard from "./TokenCard";
 
 export default function Assets({ tokenInfo, totalBalance, loading } : { tokenInfo: any,totalBalance : number, loading: boolean }) {
